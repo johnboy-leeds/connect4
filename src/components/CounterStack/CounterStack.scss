@@ -1,0 +1,21 @@
+.c-counter-stack {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: flex-start;
+  padding: 0 1rem;
+  &__counter {
+    border-radius: 50%;
+    width: 4rem;
+    height: 4rem;
+    box-sizing: border-box;
+    border: 4px dashed #0009;
+    margin-top: -3.5rem;
+
+    .c-counter-stack--red & {
+      background: red;
+    }
+    .c-counter-stack--yellow & {
+      background: yellow;
+    }
+  }
+}
