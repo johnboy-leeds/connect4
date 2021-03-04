@@ -1,61 +1,82 @@
+:root {
+    --counter-size: 4rem;
+}
+
+@media screen and (max-width: 800px) {
+    :root {
+        --counter-size: 3rem;
+    }
+}
+@media screen and (max-width: 600px) {
+    :root {
+        --counter-size: 8vw;
+    }
+}
+
 .c-grid {
-  background: blue;
-  display: grid;
-  grid-template-columns: repeat(7, 4rem);
-  grid-column-gap: 12px;
-  padding: 12px;
-  width: calc(7 * 4rem + 12px * 7);
+    background: blue;
+    display: grid;
+    grid-template-columns: repeat(7, var(--counter-size));
+    grid-column-gap: 12px;
+    padding: 12px;
+    width: calc(7 * var(--counter-size) + 12px * 7);
+
+    @media screen and (max-width: 600px) {
+        order: -1;
+    }
 }
 
 .c-grid__column {
-  display: grid;
-  grid-template-rows: repeat(6, 4rem);
-  grid-row-gap: 12px;
-  position: relative;
+    display: grid;
+    grid-template-rows: repeat(6, var(--counter-size));
+    grid-row-gap: 12px;
+    position: relative;
 
-  &--available {
-    cursor: crosshair;
-    &:hover:before {
-        display: block;
-        content: '';
-        height: 2rem;
-        width: 4rem;
-        border-top-left-radius:  2rem;
-        border-top-right-radius:  2rem;
-        position: absolute;
-        top: calc(-2rem - 12px);
-        border-style: dashed;
-        border-color: #0009;
-        box-sizing: border-box;
-        border-width: 4px 4px 0;
+    &--available {
+        cursor: crosshair;
+        @media (hover: hover) {
+            &:hover:before {
+                display: block;
+                content: '';
+                height: calc(var(--counter-size) / 2);
+                width: var(--counter-size);
+                border-top-left-radius: calc(var(--counter-size) / 2);
+                border-top-right-radius: calc(var(--counter-size) / 2);
+                position: absolute;
+                top: calc(calc(var(--counter-size) * -0.5) - 12px);
+                border-style: dashed;
+                border-color: #0009;
+                box-sizing: border-box;
+                border-width: 4px 4px 0;
 
-        .c-grid--red & {
-          background: red;
+                .c-grid--red & {
+                    background: red;
+                }
+                .c-grid--yellow & {
+                    background: yellow;
+                }
+            }
         }
-        .c-grid--yellow & {
-          background: yellow;
-        }
-      }
-  }
+    }
 
-  &--full {
-    cursor: no-drop;
-  }
+    &--full {
+        cursor: no-drop;
+    }
 }
 
 .c-grid__slot {
-  background: black;
-  border-radius: 50%;
-  width: 4rem;
-  height: 4rem;
-  box-sizing: border-box;
+    background: black;
+    border-radius: 50%;
+    width: var(--counter-size);
+    height: var(--counter-size);
+    box-sizing: border-box;
 
-  &--red {
-    background: red;
-    border: 4px dashed #0009;
-  }
-  &--yellow {
-    background: yellow;
-    border: 4px dashed #0009;
-  }
+    &--red {
+        background: red;
+        border: 4px dashed #0009;
+    }
+    &--yellow {
+        background: yellow;
+        border: 4px dashed #0009;
+    }
 }
