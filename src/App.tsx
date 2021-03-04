@@ -1,26 +1,84 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { ReactElement, useState } from 'react';
+import './App.scss';
+import {
+    CounterStack,
+    Stalemate,
+    Winner,
+    Grid as GridComponent,
+} from './components';
+import { counterColour, Column, Grid } from './modules/Grid';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+type GameState = {
+    grid: Grid;
+    turn: counterColour;
+    status: string;
+    winner: counterColour | undefined;
+    yellowStack: number;
+    redStack: number;
+};
+
+const newGame = (): GameState => ({
+    grid: new Grid(),
+    status: 'active',
+    turn: counterColour.red,
+    winner: undefined,
+    redStack: 21,
+    yellowStack: 21,
+});
+
+function App(): ReactElement {
+    const [grid, setGrid] = useState<Grid>(new Grid());
+    const [gameState, setGameState] = useState<GameState>(newGame());
+
+    const handleAddCounter = (col: Column): void => {
+        if (gameState.status !== 'active') {
+            return;
+        }
+
+        const newGameState = {
+            ...gameState,
+        };
+        if (gameState.turn === counterColour.red) {
+            newGameState.turn = counterColour.yellow;
+            newGameState.redStack--;
+        } else {
+            newGameState.turn = counterColour.red;
+            newGameState.yellowStack--;
+        }
+
+        col.addCounter(gameState.turn);
+        const gridWinner = grid.getWinner();
+        if (gridWinner) {
+            newGameState.status = 'complete';
+            newGameState.winner = gridWinner;
+        }
+        if (grid.isFull()) {
+            newGameState.status = 'stalemate';
+        }
+
+        setGameState(newGameState);
+    };
+
+    const handleReset = (): void => {
+        setGrid(new Grid());
+        setGameState(newGame());
+    };
+
+    const { winner, status, turn, redStack, yellowStack } = gameState;
+
+    return (
+        <div className="App">
+            <CounterStack colour={counterColour.red} count={redStack} />
+            <GridComponent
+                grid={grid}
+                turn={turn}
+                onAddCounter={handleAddCounter}
+            />
+            <CounterStack colour={counterColour.yellow} count={yellowStack} />
+            {status === 'stalemate' && <Stalemate onReset={handleReset} />}
+            {winner && <Winner winner={winner} onReset={handleReset} />}
+        </div>
+    );
 }
 
 export default App;

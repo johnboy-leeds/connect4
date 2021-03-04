@@ -1,0 +1,61 @@
+.c-grid {
+  background: blue;
+  display: grid;
+  grid-template-columns: repeat(7, 4rem);
+  grid-column-gap: 12px;
+  padding: 12px;
+  width: calc(7 * 4rem + 12px * 7);
+}
+
+.c-grid__column {
+  display: grid;
+  grid-template-rows: repeat(6, 4rem);
+  grid-row-gap: 12px;
+  position: relative;
+
+  &--available {
+    cursor: crosshair;
+    &:hover:before {
+        display: block;
+        content: '';
+        height: 2rem;
+        width: 4rem;
+        border-top-left-radius:  2rem;
+        border-top-right-radius:  2rem;
+        position: absolute;
+        top: calc(-2rem - 12px);
+        border-style: dashed;
+        border-color: #0009;
+        box-sizing: border-box;
+        border-width: 4px 4px 0;
+
+        .c-grid--red & {
+          background: red;
+        }
+        .c-grid--yellow & {
+          background: yellow;
+        }
+      }
+  }
+
+  &--full {
+    cursor: no-drop;
+  }
+}
+
+.c-grid__slot {
+  background: black;
+  border-radius: 50%;
+  width: 4rem;
+  height: 4rem;
+  box-sizing: border-box;
+
+  &--red {
+    background: red;
+    border: 4px dashed #0009;
+  }
+  &--yellow {
+    background: yellow;
+    border: 4px dashed #0009;
+  }
+}
