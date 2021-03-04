@@ -1,21 +1,33 @@
 .c-counter-stack {
-  display: flex;
-  flex-direction: column-reverse;
-  justify-content: flex-start;
-  padding: 0 1rem;
-  &__counter {
-    border-radius: 50%;
-    width: 4rem;
-    height: 4rem;
-    box-sizing: border-box;
-    border: 4px dashed #0009;
-    margin-top: -3.5rem;
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: flex-start;
+    padding: 0 1rem;
+    &__counter {
+        border-radius: 50%;
+        width: var(--counter-size);
+        height: var(--counter-size);
+        box-sizing: border-box;
+        border: 4px dashed #0009;
+        margin-top: calc(var(--counter-size) * -0.875);
 
-    .c-counter-stack--red & {
-      background: red;
+        .c-counter-stack--red & {
+            background: red;
+        }
+        .c-counter-stack--yellow & {
+            background: yellow;
+        }
     }
-    .c-counter-stack--yellow & {
-      background: yellow;
+}
+
+@media screen and (max-width: 450px) {
+    .c-counter-stack {
+        flex-direction: row;
+        padding: 0.5rem 0;
+
+        &__counter {
+            margin-top: 0;
+            margin-right: calc(var(--counter-size) * -0.875);
+        }
     }
-  }
 }

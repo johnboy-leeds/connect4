@@ -17,5 +17,8 @@
     },
     "[json]": {
         "editor.formatOnSave": true
+    },
+    "[scss]": {
+        "editor.formatOnSave": true
     }
 }
