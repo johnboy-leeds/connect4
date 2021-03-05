@@ -1,9 +1,9 @@
 import { ReactElement } from 'react';
-import { counterColour } from '../../modules/Grid';
+import { Counter } from '../../modules/GameEngine';
 import './CounterStack.scss';
 
 type Props = {
-    colour: counterColour;
+    colour: Counter;
     count: number;
 };
 

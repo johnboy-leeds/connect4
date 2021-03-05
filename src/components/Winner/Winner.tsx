@@ -1,8 +1,8 @@
 import { ReactElement } from 'react';
-import { counterColour } from '../../modules/Grid';
+import { Counter } from '../../modules/GameEngine';
 
 type Props = {
-    winner: counterColour;
+    winner: Counter;
     onReset: () => void;
 };
 

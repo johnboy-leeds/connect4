@@ -1,5 +1,5 @@
 import { ReactElement } from 'react';
-import { Slot } from '../../modules/Grid';
+import { Slot } from '../../modules/GameEngine';
 
 type props = {
     slot: Slot;
@@ -8,7 +8,7 @@ type props = {
 const SlotComponent = ({ slot }: props): ReactElement => {
     const colourModifier = slot.isFree()
         ? 'c-grid__slot--free'
-        : `c-grid__slot--${slot.getColour()}`;
+        : `c-grid__slot--${slot.getCounter()}`;
     return (
         <div
             className={`c-grid__slot ${colourModifier}`}
