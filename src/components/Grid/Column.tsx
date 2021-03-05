@@ -1,5 +1,5 @@
 import { ReactElement } from 'react';
-import { Column } from '../../modules/Grid';
+import { Column } from '../../modules/GameEngine';
 import Slot from './Slot';
 
 type Props = {

@@ -1,11 +1,11 @@
 import { ReactElement } from 'react';
-import { Column, counterColour, Grid as GridLogic } from '../../modules/Grid';
+import { Column, Counter, Grid as GridLogic } from '../../modules/GameEngine';
 import ColumnComponent from './Column';
 import './Grid.scss';
 
 type props = {
     grid: GridLogic;
-    turn: counterColour;
+    turn: Counter;
     onAddCounter: (col: Column) => void;
 };
 

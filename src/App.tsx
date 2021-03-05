@@ -6,13 +6,13 @@ import {
     Winner,
     Grid as GridComponent,
 } from './components';
-import { counterColour, Column, Grid } from './modules/Grid';
+import { Counter, Column, Grid } from './modules/GameEngine';
 
 type GameState = {
     grid: Grid;
-    turn: counterColour;
+    turn: Counter;
     status: string;
-    winner: counterColour | undefined;
+    winner: Counter | undefined;
     yellowStack: number;
     redStack: number;
 };
@@ -20,7 +20,7 @@ type GameState = {
 const newGame = (): GameState => ({
     grid: new Grid(),
     status: 'active',
-    turn: counterColour.red,
+    turn: Counter.red,
     winner: undefined,
     redStack: 21,
     yellowStack: 21,
@@ -38,11 +38,11 @@ function App(): ReactElement {
         const newGameState = {
             ...gameState,
         };
-        if (gameState.turn === counterColour.red) {
-            newGameState.turn = counterColour.yellow;
+        if (gameState.turn === Counter.red) {
+            newGameState.turn = Counter.yellow;
             newGameState.redStack--;
         } else {
-            newGameState.turn = counterColour.red;
+            newGameState.turn = Counter.red;
             newGameState.yellowStack--;
         }
 
@@ -68,13 +68,13 @@ function App(): ReactElement {
 
     return (
         <div className="App">
-            <CounterStack colour={counterColour.red} count={redStack} />
+            <CounterStack colour={Counter.red} count={redStack} />
             <GridComponent
                 grid={grid}
                 turn={turn}
                 onAddCounter={handleAddCounter}
             />
-            <CounterStack colour={counterColour.yellow} count={yellowStack} />
+            <CounterStack colour={Counter.yellow} count={yellowStack} />
             {status === 'stalemate' && <Stalemate onReset={handleReset} />}
             {winner && <Winner winner={winner} onReset={handleReset} />}
         </div>

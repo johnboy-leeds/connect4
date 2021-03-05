@@ -1,16 +1,16 @@
-import { Grid, Slot, counterColour } from '.';
+import { Grid, Slot, Counter } from '.';
 
 export class ResultChecker {
     constructor(private grid: Grid) {}
 
-    public getWinner(): counterColour | undefined {
+    public getWinner(): Counter | undefined {
         const cols = this.grid.getColumns();
         for (const x in cols) {
             const slots = cols[x].getSlots();
             for (const y in slots) {
                 const slot = slots[y];
                 if (this.slotStartsAWinningSequence(slot)) {
-                    return slot.getColour();
+                    return slot.getCounter();
                 }
             }
         }
@@ -45,14 +45,14 @@ export class ResultChecker {
     }
 
     private slotStartsAHorizontalSequence(slot: Slot): boolean {
-        const colour = slot.getColour();
+        const colour = slot.getCounter();
         if (!colour) {
             return false;
         }
         const row = slot.getRowNumber();
         const col = slot.getColumnNumber();
         for (let offset = 1; offset < 4; offset++) {
-            if (this.grid.getColourAtPosition(col + offset, row) !== colour) {
+            if (this.grid.getCounterAtPosition(col + offset, row) !== colour) {
                 return false;
             }
         }
@@ -61,7 +61,7 @@ export class ResultChecker {
     }
 
     private slotStartsAVerticalSequence(slot: Slot): boolean {
-        const colour = slot.getColour();
+        const colour = slot.getCounter();
         if (!colour) {
             return false;
         }
@@ -72,7 +72,7 @@ export class ResultChecker {
         }
         const col = slot.getColumnNumber();
         for (let offset = 1; offset < 4; offset++) {
-            if (this.grid.getColourAtPosition(col, row + offset) !== colour) {
+            if (this.grid.getCounterAtPosition(col, row + offset) !== colour) {
                 return false;
             }
         }
@@ -81,7 +81,7 @@ export class ResultChecker {
     }
 
     private slotStartsADiagnolUpSequence(slot: Slot): boolean {
-        const colour = slot.getColour();
+        const colour = slot.getCounter();
         if (!colour) {
             return false;
         }
@@ -92,7 +92,7 @@ export class ResultChecker {
         const col = slot.getColumnNumber();
         for (let offset = 1; offset < 4; offset++) {
             if (
-                this.grid.getColourAtPosition(col + offset, row + offset) !==
+                this.grid.getCounterAtPosition(col + offset, row + offset) !==
                 colour
             ) {
                 return false;
@@ -103,7 +103,7 @@ export class ResultChecker {
     }
 
     private slotStartsADiagnolDownSequence(slot: Slot): boolean {
-        const colour = slot.getColour();
+        const colour = slot.getCounter();
         if (!colour) {
             return false;
         }
@@ -115,7 +115,7 @@ export class ResultChecker {
         const col = slot.getColumnNumber();
         for (let offset = 1; offset < 4; offset++) {
             if (
-                this.grid.getColourAtPosition(col + offset, row - offset) !==
+                this.grid.getCounterAtPosition(col + offset, row - offset) !==
                 colour
             ) {
                 return false;
