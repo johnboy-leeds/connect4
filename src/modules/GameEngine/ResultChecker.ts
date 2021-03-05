@@ -14,11 +14,13 @@ export class ResultChecker {
                 }
             }
         }
-
-        return undefined;
     }
 
     private slotStartsAWinningSequence(slot: Slot): boolean {
+        if (!slot.getCounter()) {
+            return false;
+        }
+
         if (this.slotStartsAVerticalSequence(slot)) {
             return true;
         }
@@ -45,78 +47,53 @@ export class ResultChecker {
     }
 
     private slotStartsAHorizontalSequence(slot: Slot): boolean {
-        const colour = slot.getCounter();
-        if (!colour) {
-            return false;
-        }
-        const row = slot.getRowNumber();
-        const col = slot.getColumnNumber();
-        for (let offset = 1; offset < 4; offset++) {
-            if (this.grid.getCounterAtPosition(col + offset, row) !== colour) {
-                return false;
-            }
-        }
-
-        return true;
+        return this.checkSequence(slot, +1, 0);
     }
 
     private slotStartsAVerticalSequence(slot: Slot): boolean {
-        const colour = slot.getCounter();
-        if (!colour) {
+        if (slot.getRowNumber() > 3) {
+            // If slot is in the top 3 rows there is not
+            // space above for a upward sequence
             return false;
         }
-        const row = slot.getRowNumber();
 
-        if (row > 3) {
-            return false;
-        }
-        const col = slot.getColumnNumber();
-        for (let offset = 1; offset < 4; offset++) {
-            if (this.grid.getCounterAtPosition(col, row + offset) !== colour) {
-                return false;
-            }
-        }
-
-        return true;
+        return this.checkSequence(slot, 0, +1);
     }
 
     private slotStartsADiagnolUpSequence(slot: Slot): boolean {
-        const colour = slot.getCounter();
-        if (!colour) {
+        if (slot.getRowNumber() > 3) {
+            // If slot is in the top 3 rows there is not
+            // space above for a upward sequence
             return false;
-        }
-        const row = slot.getRowNumber();
-        if (row > 3) {
-            return false;
-        }
-        const col = slot.getColumnNumber();
-        for (let offset = 1; offset < 4; offset++) {
-            if (
-                this.grid.getCounterAtPosition(col + offset, row + offset) !==
-                colour
-            ) {
-                return false;
-            }
         }
 
-        return true;
+        return this.checkSequence(slot, +1, +1);
     }
 
     private slotStartsADiagnolDownSequence(slot: Slot): boolean {
-        const colour = slot.getCounter();
-        if (!colour) {
-            return false;
-        }
-        const row = slot.getRowNumber();
-        if (row < 4) {
+        if (slot.getRowNumber() < 4) {
+            // If slot is in the bottom 3 rows there is not
+            // space above for a downward sequence
             return false;
         }
 
+        return this.checkSequence(slot, +1, -1);
+    }
+
+    private checkSequence(
+        slot: Slot,
+        horizontalOffset: number,
+        verticalOffset: number
+    ): boolean {
+        const counter = slot.getCounter();
         const col = slot.getColumnNumber();
+        const row = slot.getRowNumber();
         for (let offset = 1; offset < 4; offset++) {
             if (
-                this.grid.getCounterAtPosition(col + offset, row - offset) !==
-                colour
+                this.grid.getCounterAtPosition(
+                    col + offset * horizontalOffset,
+                    row + offset * verticalOffset
+                ) !== counter
             ) {
                 return false;
             }
