@@ -11,7 +11,7 @@ export const CounterStack = ({ colour, count }: Props): ReactElement => {
     const counters = [];
 
     for (let i = 0; i < count; i++) {
-        counters.push(<div className="c-counter-stack__counter" />);
+        counters.push(<div key={i} className="c-counter-stack__counter" />);
     }
 
     return (

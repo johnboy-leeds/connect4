@@ -1,0 +1,19 @@
+.c-playarea {
+    display: grid;
+
+    grid-template-columns: calc(var(--col-spacing) * 2 + var(--counter-size)) 1fr calc(
+            var(--col-spacing) * 2 + var(--counter-size)
+        );
+    grid-template-areas: 'redStack grid yellowStack' 'status status status';
+
+    @media screen and (max-width: 600px) {
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas: 'grid grid' 'redStack yellowStack' 'status status';
+    }
+}
+
+.c-status-bar {
+    display: flex;
+    justify-content: space-between;
+    grid-area: status;
+}
