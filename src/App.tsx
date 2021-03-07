@@ -1,21 +1,7 @@
-import React, { ReactElement, useState } from 'react';
+import { ReactElement, useState } from 'react';
 import './App.scss';
-import {
-    CounterStack,
-    Stalemate,
-    Winner,
-    Grid as GridComponent,
-} from './components';
-import { Counter, Column, Grid } from './modules/GameEngine';
-
-type GameState = {
-    grid: Grid;
-    turn: Counter;
-    status: string;
-    winner: Counter | undefined;
-    yellowStack: number;
-    redStack: number;
-};
+import { PlayArea } from './components';
+import { Counter, Column, Grid, GameState } from './modules/GameEngine';
 
 const newGame = (): GameState => ({
     grid: new Grid(),
@@ -27,8 +13,8 @@ const newGame = (): GameState => ({
 });
 
 function App(): ReactElement {
-    const [grid, setGrid] = useState<Grid>(new Grid());
     const [gameState, setGameState] = useState<GameState>(newGame());
+    const { grid } = gameState;
 
     const handleAddCounter = (col: Column): void => {
         if (gameState.status !== 'active') {
@@ -48,6 +34,7 @@ function App(): ReactElement {
 
         col.addCounter(gameState.turn);
         const gridWinner = grid.getWinner();
+        console.log('did it', gridWinner);
         if (gridWinner) {
             newGameState.status = 'complete';
             newGameState.winner = gridWinner;
@@ -60,23 +47,16 @@ function App(): ReactElement {
     };
 
     const handleReset = (): void => {
-        setGrid(new Grid());
         setGameState(newGame());
     };
 
-    const { winner, status, turn, redStack, yellowStack } = gameState;
-
     return (
         <div className="App">
-            <CounterStack colour={Counter.red} count={redStack} />
-            <GridComponent
-                grid={grid}
-                turn={turn}
+            <PlayArea
                 onAddCounter={handleAddCounter}
+                onReset={handleReset}
+                gameState={gameState}
             />
-            <CounterStack colour={Counter.yellow} count={yellowStack} />
-            {status === 'stalemate' && <Stalemate onReset={handleReset} />}
-            {winner && <Winner winner={winner} onReset={handleReset} />}
         </div>
     );
 }

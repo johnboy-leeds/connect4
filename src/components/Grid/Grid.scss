@@ -1,15 +1,24 @@
 :root {
-    --counter-size: 4rem;
+    --counter-size: 60px;
+    --col-spacing: 12px;
 }
 
 @media screen and (max-width: 800px) {
     :root {
-        --counter-size: 3rem;
+        --counter-size: 50px;
     }
 }
+
 @media screen and (max-width: 600px) {
     :root {
-        --counter-size: 8vw;
+        --counter-size: 40px;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    :root {
+        --counter-size: 30px;
+        --col-spacing: 8px;
     }
 }
 
@@ -17,9 +26,10 @@
     background: blue;
     display: grid;
     grid-template-columns: repeat(7, var(--counter-size));
-    grid-column-gap: 12px;
-    padding: 12px;
-    width: calc(7 * var(--counter-size) + 12px * 7);
+    grid-column-gap: var(--col-spacing);
+    grid-area: grid;
+    padding: var(--col-spacing);
+    width: calc(7 * var(--counter-size) + var(--col-spacing) * 7);
 
     @media screen and (max-width: 600px) {
         order: -1;
@@ -29,7 +39,7 @@
 .c-grid__column {
     display: grid;
     grid-template-rows: repeat(6, var(--counter-size));
-    grid-row-gap: 12px;
+    grid-row-gap: var(--col-spacing);
     position: relative;
 
     &--available {
@@ -43,7 +53,9 @@
                 border-top-left-radius: calc(var(--counter-size) / 2);
                 border-top-right-radius: calc(var(--counter-size) / 2);
                 position: absolute;
-                top: calc(calc(var(--counter-size) * -0.5) - 12px);
+                top: calc(
+                    calc(var(--counter-size) * -0.5) - var(--col-spacing)
+                );
                 border-style: dashed;
                 border-color: #0009;
                 box-sizing: border-box;

@@ -20,14 +20,18 @@
     }
 }
 
-@media screen and (max-width: 450px) {
+@media screen and (max-width: 600px) {
     .c-counter-stack {
         flex-direction: row;
-        padding: 0.5rem 0;
+        padding: var(--col-spacing) 0;
 
         &__counter {
             margin-top: 0;
             margin-right: calc(var(--counter-size) * -0.875);
+        }
+
+        &--yellow {
+            flex-direction: row-reverse;
         }
     }
 }
